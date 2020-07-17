@@ -67,12 +67,22 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Car> carList;
 
+    public User() {  }
+
     public User(String firstName, String lastName, String email, String login, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.login = login;
         this.password = password;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFirstName() {
