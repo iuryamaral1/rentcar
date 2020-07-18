@@ -1,6 +1,10 @@
 package br.com.rentcar.model;
 
+import io.jsonwebtoken.lang.Collections;
+
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -14,6 +18,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -63,6 +68,10 @@ public class User {
     @Size(min = 11, max = 11)
     @Column(name = "phone", length = 11)
     private String phone;
+
+    @ElementCollection
+    @CollectionTable(name = "profiles")
+    private List<Profile> profiles;
 
     @OneToMany(mappedBy = "user")
     private List<Car> carList;
@@ -139,6 +148,22 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public List<Profile> getProfiles() {
+        return profiles;
+    }
+
+    private void setProfiles(List<Profile> profiles) {
+        this.profiles = profiles;
+    }
+
+    public void addProfile(Profile profile) {
+        if (Collections.isEmpty(getProfiles())) {
+            this.profiles = new ArrayList<>();
+        }
+
+        this.profiles.add(profile);
     }
 
     public List<Car> getCarList() {

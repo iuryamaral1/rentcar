@@ -1,5 +1,6 @@
 package br.com.rentcar.services;
 
+import br.com.rentcar.model.Profile;
 import br.com.rentcar.model.User;
 import br.com.rentcar.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ public class UserService extends AbstractService<User, UserRepository> {
     @Override
     public User create(User user) {
         user.setPassword(this.bCryptPasswordEncoder.encode(user.getPassword()));
+        user.addProfile(Profile.USER);
         return super.create(user);
     }
 }
