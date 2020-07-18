@@ -1,5 +1,6 @@
 package br.com.rentcar.services;
 
+import br.com.rentcar.exceptions.LoginAlreadyExistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -18,8 +19,12 @@ public abstract class AbstractService<E, ER extends JpaRepository<E, Long>> {
         return repository.findById(id).orElse(null);
     }
 
-    public E create(E e) {
-        return repository.save(e);
+    public E create(E e) throws Exception {
+        try {
+            return repository.save(e);
+        } catch (Exception ex) {
+            throw new Exception(ex);
+        }
     }
 
     public E update(E e) {

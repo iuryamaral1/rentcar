@@ -1,19 +1,24 @@
 package br.com.rentcar.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import java.util.Date;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class OutputUserDto extends OutputDto {
 
     private Long userId;
     private String userFirstName;
     private String userLastName;
     private String userEmail;
-    private String userBirthDate;
+    private Date userBirthDate;
     private String userLogin;
     private String userPhone;
 
     public OutputUserDto() { }
 
     public OutputUserDto(Long userId, String userFirstName, String userLastName, String userEmail,
-                   String userBirthDate, String userLogin, String userPhone) {
+                         Date userBirthDate, String userLogin, String userPhone) {
         this.userId = userId;
         this.userFirstName = userFirstName;
         this.userLastName = userLastName;
@@ -55,11 +60,11 @@ public class OutputUserDto extends OutputDto {
         this.userEmail = userEmail;
     }
 
-    public String getUserBirthDate() {
+    public Date getUserBirthDate() {
         return userBirthDate;
     }
 
-    public void setUserBirthDate(String userBirthDate) {
+    public void setUserBirthDate(Date userBirthDate) {
         this.userBirthDate = userBirthDate;
     }
 
