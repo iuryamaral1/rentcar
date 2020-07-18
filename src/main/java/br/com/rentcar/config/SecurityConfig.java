@@ -16,8 +16,11 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     public static final String[] PUBLIC_MATCHERS = {
-            "/users/**",
             "/h2-console/**"
+    };
+
+    public static final String[] PUBLIC_MATCHERS_GET_POST_OPERATIONS = {
+            "/users/**",
     };
 
     @Override
@@ -26,6 +29,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable();
         http.authorizeRequests()
                 .antMatchers(PUBLIC_MATCHERS).permitAll()
+                .antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET_POST_OPERATIONS).permitAll()
+                .antMatchers(HttpMethod.POST, PUBLIC_MATCHERS_GET_POST_OPERATIONS).permitAll()
                 .anyRequest().authenticated();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }

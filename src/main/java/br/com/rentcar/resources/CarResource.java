@@ -6,5 +6,5 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/cars")
-public class CarResource extends AbstractResource<Car> {
+public class CarResource {
 }
