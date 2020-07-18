@@ -30,22 +30,22 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty
-    @NotBlank
-    @Size(min = 3, max = 50)
+    @NotEmpty(message = "{br.com.rentcar.User.firstName.NotEmpty}")
+    @NotBlank(message = "{br.com.rentcar.User.firstName.NotBlank}")
+    @Size(min = 3, max = 50, message = "{br.com.rentcar.User.firstName.Size}")
     @Column(name = "first_name", length = 50, nullable = false)
     private String firstName;
 
-    @NotEmpty
-    @NotBlank
-    @Size(min = 3, max = 50)
+    @NotEmpty(message = "{br.com.rentcar.User.lastName.NotEmpty}")
+    @NotBlank(message = "{br.com.rentcar.User.lastName.NotBlank}")
+    @Size(min = 3, max = 50, message = "{br.com.rentcar.User.lastName.Size}")
     @Column(name = "last_name", length = 50, nullable = false)
     private String lastName;
 
-    @NotBlank
-    @NotEmpty
-    @Email
-    @Size(max = 50)
+    @NotEmpty(message = "{br.com.rentcar.User.email.NotEmpty}")
+    @NotBlank(message = "{br.com.rentcar.User.email.NotBlank}")
+    @Email(message = "{br.com.rentcar.User.email.Email}")
+    @Size(max = 50, message = "{br.com.rentcar.User.email.Size}")
     @Column(name = "email", length = 50, nullable = false)
     private String email;
 
@@ -53,19 +53,19 @@ public class User {
     @Column(name = "birth_day")
     private Date birthDay;
 
-    @NotBlank
-    @NotEmpty
-    @Size(min = 3, max = 50)
+    @NotEmpty(message = "{br.com.rentcar.User.login.NotEmpty}")
+    @NotBlank(message = "{br.com.rentcar.User.login.NotBlank}")
+    @Size(min = 3, max = 50, message = "{br.com.rentcar.User.login.Size}")
     @Column(name = "login", unique = true, nullable = false, length = 50)
     private String login;
 
-    @NotEmpty
-    @NotBlank
-    @Size(min = 6, max = 150)
+    @NotEmpty(message = "{br.com.rentcar.User.password.NotEmpty}")
+    @NotBlank(message = "{br.com.rentcar.User.password.NotBlank}")
+    @Size(min = 6, max = 150, message = "{br.com.rentcar.User.password.Size}")
     @Column(name = "password", nullable = false, length = 150)
     private String password;
 
-    @Size(min = 11, max = 11)
+    @Size(min = 11, max = 11, message = "{br.com.rentcar.User.phone.Size}")
     @Column(name = "phone", length = 11)
     private String phone;
 

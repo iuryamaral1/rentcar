@@ -2,10 +2,13 @@ package br.com.rentcar.resources;
 
 import br.com.rentcar.dto.InputDto;
 import br.com.rentcar.dto.OutputDto;
+import br.com.rentcar.errors.ErrorResponse;
 import br.com.rentcar.mappers.Mapper;
 import br.com.rentcar.services.AbstractService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,10 +35,14 @@ public abstract class AbstractResource<T, IDto extends InputDto, ODto extends Ou
     }
 
     @PostMapping(consumes = { APPLICATION_JSON_VALUE }, produces = { APPLICATION_JSON_VALUE })
-    public Response create(@RequestBody IDto iDto) {
-        Object object = service.create(mapper.getMapper().inputDtoToEntity(iDto));
-        Object outputObject = mapper.entityToOutputDto(object);
-        return Response.ok(outputObject).build();
+    public ResponseEntity<? extends OutputDto> create(@RequestBody IDto iDto) throws Exception {
+        try {
+            Object object = service.create(mapper.getMapper().inputDtoToEntity(iDto));
+            OutputDto outputObject = mapper.entityToOutputDto(object);
+            return ResponseEntity.status(HttpStatus.CREATED).body(outputObject);
+        } catch(Exception e) {
+            throw new Exception(e);
+        }
     }
 
     @PutMapping(consumes = { APPLICATION_JSON_VALUE }, produces = { APPLICATION_JSON_VALUE })
