@@ -6,9 +6,12 @@ import br.com.rentcar.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
+import org.mapstruct.factory.Mappers;
 
-@Mapper
-public interface UserMapper extends br.com.rentcar.mappers.Mapper<User, InputUserDto, OutputUserDto> {
+@Mapper(componentModel = "spring")
+public interface UserMapper extends br.com.rentcar.mappers.Mapper<User, InputUserDto, OutputUserDto, UserMapper> {
+
+    UserMapper INSTANCE = Mappers.getMapper( UserMapper.class );
 
     @Override
     @Mappings( {
@@ -33,4 +36,7 @@ public interface UserMapper extends br.com.rentcar.mappers.Mapper<User, InputUse
             @Mapping(target = "phone",            source = "inputDto.phoneContactUser")
     } )
     User inputDtoToEntity(InputUserDto inputDto);
+
+    @Override
+    default Class<UserMapper> getMapperClass() { return UserMapper.class; }
 }
