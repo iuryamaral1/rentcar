@@ -56,8 +56,8 @@ public class User {
 
     @NotEmpty
     @NotBlank
-    @Size(min = 6, max = 50)
-    @Column(name = "password", nullable = false, length = 50)
+    @Size(min = 6, max = 150)
+    @Column(name = "password", nullable = false, length = 150)
     private String password;
 
     @Size(min = 11, max = 11)
