@@ -8,18 +8,21 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import javax.ws.rs.core.Response;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handleAllExceptions(Exception ex) {
+    public Response handleAllExceptions(Exception ex) {
         ErrorResponse errorResponse = getErrorResponse(ex);
-        return new ResponseEntity < > (errorResponse, HttpStatus.BAD_REQUEST);
+        return Response.status(BAD_REQUEST).entity(errorResponse).build();
     }
 
     private ErrorResponse getErrorResponse(Exception ex) {
