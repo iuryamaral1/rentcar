@@ -17,9 +17,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -51,7 +53,7 @@ public class User implements UserDetails {
     @NotBlank(message = "{br.com.rentcar.User.email.NotBlank}")
     @Email(message = "{br.com.rentcar.User.email.Email}")
     @Size(max = 50, message = "{br.com.rentcar.User.email.Size}")
-    @Column(name = "email", length = 50, nullable = false)
+    @Column(name = "email", length = 50, nullable = false, unique = true)
     private String email;
 
     @Temporal(TemporalType.DATE)
@@ -77,6 +79,13 @@ public class User implements UserDetails {
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "profiles")
     private List<Profile> profiles;
+
+    @Transient
+    private String token;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "last_login")
+    private Date lastLogin;
 
     @OneToMany(mappedBy = "user")
     private List<Car> carList;
@@ -139,10 +148,6 @@ public class User implements UserDetails {
         this.login = login;
     }
 
-    public String getPassword() {
-        return this.password;
-    }
-
     public void setPassword(String password) {
         this.password = password;
     }
@@ -171,6 +176,22 @@ public class User implements UserDetails {
         this.profiles.add(profile);
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public Date getLastLogin() {
+        return lastLogin;
+    }
+
+    public void setLastLogin(Date lastLogin) {
+        this.lastLogin = lastLogin;
+    }
+
     public List<Car> getCarList() {
         return carList;
     }
@@ -182,6 +203,11 @@ public class User implements UserDetails {
     @Override
     public String getUsername() {
         return this.getLogin();
+    }
+
+    @Override
+    public String getPassword() {
+        return this.password;
     }
 
     @Override

@@ -67,4 +67,9 @@ public class UserService extends AbstractService<User, UserRepository> implement
         }
         return userByLogin;
     }
+
+    @Override
+    public User update(User user) {
+        return super.update(user);
+    }
 }

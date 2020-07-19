@@ -36,7 +36,7 @@ public abstract class AbstractResource<T, IDto extends InputDto, ODto extends Ou
     @GetMapping(produces = { APPLICATION_JSON_VALUE })
     public Response findAll() {
         List<T> allObjects = service.findAll();
-        List<OutputDto> objOutputDtoList = allObjects.stream().map(obj -> mapper.entityToOutputDto(obj))
+        List<OutputDto> objOutputDtoList = allObjects.stream().map(obj -> mapper.getMapper().entityToOutputDto(obj))
                 .collect(Collectors.toList());
         return Response.ok().entity(objOutputDtoList).build();
     }
@@ -64,9 +64,13 @@ public abstract class AbstractResource<T, IDto extends InputDto, ODto extends Ou
         }
     }
 
-    @PutMapping(consumes = { APPLICATION_JSON_VALUE }, produces = { APPLICATION_JSON_VALUE })
-    public Response update() {
-        return Response.ok().build();
+    @PutMapping(value = "/{id}", consumes = { APPLICATION_JSON_VALUE }, produces = { APPLICATION_JSON_VALUE })
+    public Response update(@RequestBody IDto idto, @PathVariable("id") Long id) {
+        Object objectFound = service.findOne(id);
+        mapper.updateEntityFromDto(idto, objectFound);
+        Object updatedObject = service.update(objectFound);
+        OutputDto outputDto = mapper.entityToOutputDto(updatedObject);
+        return Response.ok().entity(outputDto).build();
     }
 
     @DeleteMapping(value = "/{id}", consumes = { APPLICATION_JSON_VALUE }, produces = { APPLICATION_JSON_VALUE })

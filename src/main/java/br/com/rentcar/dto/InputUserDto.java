@@ -1,6 +1,5 @@
 package br.com.rentcar.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.Date;
@@ -8,6 +7,7 @@ import java.util.Date;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class InputUserDto extends InputDto {
 
+    private Long id;
     private String firstNameUser;
     private String lastNameUser;
     private String usermail;
