@@ -30,12 +30,12 @@ public class GlobalExceptionHandler {
     }
 
     private List<String> getErrorMessages(Exception ex) {
-        List<String> errorMessageList = new ArrayList<>();
+        List<String> errorMessageList;
         Throwable cause = Optional.ofNullable(ExceptionUtils.getRootCause(ex)).orElse(ex);
         if (cause instanceof ConstraintViolationException) {
             errorMessageList = ((ConstraintViolationException) cause).getConstraintViolations()
-                .stream().map(ConstraintViolation::getIn)
-                .collect(Collectors.toList());
+                    .stream().map(ConstraintViolation::getMessage)
+                    .collect(Collectors.toList());
         } if (cause instanceof LoginAlreadyExistException) {
             errorMessageList = Collections.singletonList(cause.getMessage());
         } if (cause instanceof EmailAlreadyExistException) {
