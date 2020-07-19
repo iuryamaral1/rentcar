@@ -34,31 +34,31 @@ public abstract class AbstractResource<T, IDto extends InputDto, ODto extends Ou
     protected S service;
 
     @GetMapping(produces = { APPLICATION_JSON_VALUE })
-    public ResponseEntity<List<? extends OutputDto>> findAll() {
+    public Response findAll() {
         List<T> allObjects = service.findAll();
         List<OutputDto> objOutputDtoList = allObjects.stream().map(obj -> mapper.entityToOutputDto(obj))
                 .collect(Collectors.toList());
-        return ResponseEntity.ok(objOutputDtoList);
+        return Response.ok().entity(objOutputDtoList).build();
     }
 
     @GetMapping(value = "/{id}", produces = { APPLICATION_JSON_VALUE })
-    public ResponseEntity<OutputDto> findById(@PathVariable("id") Long id) {
+    public Response findById(@PathVariable("id") Long id) {
         Object objectFound = service.findOne(id);
 
         if (Objects.isNull(objectFound)) {
-            return ResponseEntity.notFound().build();
+            return Response.status(Response.Status.NOT_FOUND).build();
         }
 
         OutputDto objectOutputDto = mapper.entityToOutputDto(objectFound);
-        return ResponseEntity.ok(objectOutputDto);
+        return Response.ok().entity(objectOutputDto).build();
     }
 
     @PostMapping(consumes = { APPLICATION_JSON_VALUE }, produces = { APPLICATION_JSON_VALUE })
-    public ResponseEntity<? extends OutputDto> create(@RequestBody IDto iDto) throws Exception {
+    public Response create(@RequestBody IDto iDto) throws Exception {
         try {
             Object object = service.create(mapper.getMapper().inputDtoToEntity(iDto));
             OutputDto outputObject = mapper.entityToOutputDto(object);
-            return ResponseEntity.status(HttpStatus.CREATED).body(outputObject);
+            return Response.status(Response.Status.CREATED).entity(outputObject).build();
         } catch(Exception e) {
             throw new Exception(e);
         }
@@ -70,16 +70,9 @@ public abstract class AbstractResource<T, IDto extends InputDto, ODto extends Ou
     }
 
     @DeleteMapping(value = "/{id}", consumes = { APPLICATION_JSON_VALUE }, produces = { APPLICATION_JSON_VALUE })
-    public Response delete() {
+    public Response delete(@PathVariable("id") Long id) {
+        service.deleteById(id);
         return Response.ok().build();
-    }
-
-    protected T createEntity() {
-        try {
-            return getEntityClass().newInstance();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 
     protected abstract Class<T> getEntityClass();

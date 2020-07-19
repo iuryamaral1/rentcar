@@ -34,4 +34,8 @@ public abstract class AbstractService<E, ER extends JpaRepository<E, Long>> {
     public void delete(E e) {
         repository.delete(e);
     }
+
+    public void deleteById(Long id) {
+        repository.deleteById(id);
+    }
 }
