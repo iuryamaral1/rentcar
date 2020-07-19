@@ -15,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.Objects;
 
 @Component
 public class JwtTokenProvider {
@@ -36,22 +37,39 @@ public class JwtTokenProvider {
                 .setSubject(username)
                 .setIssuedAt(new Date())
                 .setExpiration(expiryDate)
-                .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                .signWith(SignatureAlgorithm.HS512, jwtSecret.getBytes())
                 .compact();
     }
 
     public String getUsernameFromJWT(String token) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(jwtSecret)
-                .parseClaimsJws(token)
-                .getBody();
+        return getClaims(token).getSubject();
+    }
 
-        return claims.getSubject();
+    public boolean isValidToken(String authToken) {
+        Claims claims = getClaims(authToken);
+        if (!Objects.isNull(claims)) {
+            String username = claims.getSubject();
+            Date expirationTime = claims.getExpiration();
+            Date now = new Date(System.currentTimeMillis());
+            if (username != null && expirationTime != null && now.before(expirationTime)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private Claims getClaims(String token) {
+        try {
+            return Jwts.parser().setSigningKey(jwtSecret.getBytes()).parseClaimsJws(token).getBody();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public boolean validateToken(String authToken) {
         try {
-            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
+            Jwts.parser().setSigningKey(jwtSecret.getBytes()).parseClaimsJws(authToken);
             return true;
         } catch (SignatureException ex) {
             logger.error("Invalid JWT signature");
