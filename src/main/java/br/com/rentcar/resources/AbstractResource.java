@@ -11,13 +11,17 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -30,8 +34,23 @@ public abstract class AbstractResource<T, IDto extends InputDto, ODto extends Ou
     protected S service;
 
     @GetMapping(produces = { APPLICATION_JSON_VALUE })
-    public List<T> findAll() {
-        return Collections.emptyList();
+    public ResponseEntity<List<? extends OutputDto>> findAll() {
+        List<T> allObjects = service.findAll();
+        List<OutputDto> objOutputDtoList = allObjects.stream().map(obj -> mapper.entityToOutputDto(obj))
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(objOutputDtoList);
+    }
+
+    @GetMapping(value = "/{id}", produces = { APPLICATION_JSON_VALUE })
+    public ResponseEntity<OutputDto> findById(@PathVariable("id") Long id) {
+        Object objectFound = service.findOne(id);
+
+        if (Objects.isNull(objectFound)) {
+            return ResponseEntity.notFound().build();
+        }
+
+        OutputDto objectOutputDto = mapper.entityToOutputDto(objectFound);
+        return ResponseEntity.ok(objectOutputDto);
     }
 
     @PostMapping(consumes = { APPLICATION_JSON_VALUE }, produces = { APPLICATION_JSON_VALUE })

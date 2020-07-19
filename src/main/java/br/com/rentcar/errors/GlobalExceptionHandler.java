@@ -1,10 +1,6 @@
 package br.com.rentcar.errors;
 
-import br.com.rentcar.exceptions.EmailAlreadyExistException;
-import br.com.rentcar.exceptions.LoginAlreadyExistException;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,7 +8,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -23,27 +18,22 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleAllExceptions(Exception ex) {
-        List<String> errorMessages = getErrorMessages(ex);
-        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST);
-        errorResponse.setErrorMessageList(errorMessages);
+        ErrorResponse errorResponse = getErrorResponse(ex);
         return new ResponseEntity < > (errorResponse, HttpStatus.BAD_REQUEST);
     }
 
-    private List<String> getErrorMessages(Exception ex) {
-        List<String> errorMessageList;
+    private ErrorResponse getErrorResponse(Exception ex) {
         Throwable cause = Optional.ofNullable(ExceptionUtils.getRootCause(ex)).orElse(ex);
+        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST);
         if (cause instanceof ConstraintViolationException) {
-            errorMessageList = ((ConstraintViolationException) cause).getConstraintViolations()
+            List<String> errorMessages = ((ConstraintViolationException) cause).getConstraintViolations()
                     .stream().map(ConstraintViolation::getMessage)
                     .collect(Collectors.toList());
-        } if (cause instanceof LoginAlreadyExistException) {
-            errorMessageList = Collections.singletonList(cause.getMessage());
-        } if (cause instanceof EmailAlreadyExistException) {
-            errorMessageList = Collections.singletonList(cause.getMessage());
+            errorResponse.setErrorMessageList(errorMessages);
         } else {
-            errorMessageList = Collections.singletonList(ex.getLocalizedMessage());
+            errorResponse.setErrorMessageList(Collections.singletonList(ex.getMessage()));
         }
 
-        return errorMessageList;
+        return errorResponse;
     }
 }
