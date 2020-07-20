@@ -1,7 +1,6 @@
 package br.com.rentcar.interceptors;
 
 import br.com.rentcar.config.JwtTokenProvider;
-import br.com.rentcar.model.User;
 import br.com.rentcar.services.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.AuthenticationManager;
