@@ -2,13 +2,9 @@ package br.com.rentcar.resources;
 
 import br.com.rentcar.dto.InputDto;
 import br.com.rentcar.dto.OutputDto;
-import br.com.rentcar.errors.ErrorResponse;
 import br.com.rentcar.mappers.Mapper;
 import br.com.rentcar.services.AbstractService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,9 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;

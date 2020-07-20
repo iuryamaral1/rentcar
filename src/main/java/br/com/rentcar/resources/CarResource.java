@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/cars")
 public class CarResource extends AbstractResource<Car, InputCarDto, OutputCarDto, CarMapper, CarService> {
+
     @Override
     protected Class<Car> getEntityClass() {
         return Car.class;
