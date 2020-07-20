@@ -28,7 +28,6 @@ public class GlobalExceptionHandler {
 
     private ErrorResponse getErrorResponse(Exception ex) {
         Throwable cause = Optional.ofNullable(ExceptionUtils.getRootCause(ex)).orElse(ex);
-        System.out.println("AAAAAAAAAAAAAAA > " + ex.getCause());
         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST);
         if (cause instanceof ConstraintViolationException) {
             List<String> errorMessages = ((ConstraintViolationException) cause).getConstraintViolations()

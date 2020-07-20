@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
+import java.util.Date;
 
 @Service
 public class UserService extends AbstractService<User, UserRepository> implements UserDetailsService {
@@ -56,6 +57,7 @@ public class UserService extends AbstractService<User, UserRepository> implement
 
         user.setPassword(this.bCryptPasswordEncoder.encode(user.getPassword()));
         user.addProfile(Profile.USER);
+        user.setCreatedAt(new Date());
         return super.create(user);
     }
 

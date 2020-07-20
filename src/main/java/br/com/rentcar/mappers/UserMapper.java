@@ -22,7 +22,9 @@ public interface UserMapper extends br.com.rentcar.mappers.Mapper<User, InputUse
             @Mapping(target = "userEmail",     source = "entity.email"),
             @Mapping(target = "userBirthDate", source = "entity.birthDay"),
             @Mapping(target = "userLogin",     source = "entity.login"),
-            @Mapping(target = "userPhone",     source = "entity.phone")
+            @Mapping(target = "userPhone",     source = "entity.phone"),
+            @Mapping(target = "createdAt",      source = "entity.createdAt"),
+            @Mapping(target = "lastLogin",     source = "entity.lastLogin")
     } )
     OutputUserDto entityToOutputDto(User entity);
 

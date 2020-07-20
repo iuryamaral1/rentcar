@@ -88,6 +88,10 @@ public class User implements UserDetails {
     @Column(name = "last_login")
     private Date lastLogin;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private Date createdAt;
+
     @OneToMany(mappedBy = "user")
     private List<Car> carList;
 
@@ -191,6 +195,14 @@ public class User implements UserDetails {
 
     public void setLastLogin(Date lastLogin) {
         this.lastLogin = lastLogin;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     public List<Car> getCarList() {

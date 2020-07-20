@@ -26,18 +26,22 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private AuthenticationManager authenticationManager;
     private JwtTokenProvider jwtTokenProvider;
+    private UserService userService;
 
     private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 
-    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider) {
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider,
+                                   UserService userService) {
         setAuthenticationFailureHandler(new JwtAuthenticationFailureFilter());
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
+        this.userService = userService;
     }
 
     @Override
@@ -57,6 +61,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         String username = ((User) authResult.getPrincipal()).getUsername();
         String token = jwtTokenProvider.generateToken(username);
+        User userByLogin = this.userService.findByLogin(username);
+        userByLogin.setLastLogin(new Date());
+        this.userService.update(userByLogin);
         response.addHeader("Authorization", "Bearer " + token);
     }
 
