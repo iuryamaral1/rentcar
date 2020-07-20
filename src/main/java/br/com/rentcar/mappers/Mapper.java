@@ -5,9 +5,8 @@ import br.com.rentcar.dto.OutputDto;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
-import org.mapstruct.factory.Mappers;
 
-public interface Mapper<E, IDto extends InputDto, ODto extends OutputDto, M extends Mapper> {
+public interface Mapper<E, IDto extends InputDto, ODto extends OutputDto> {
 
     ODto entityToOutputDto(E entity);
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
@@ -15,11 +14,4 @@ public interface Mapper<E, IDto extends InputDto, ODto extends OutputDto, M exte
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateEntityFromDto(IDto inputDto, @MappingTarget E e);
-
-    Class<M> getMapperClass();
-
-    default Mapper getMapper() {
-        return Mappers.getMapper(getMapperClass());
-    }
-
 }

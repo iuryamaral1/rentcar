@@ -36,7 +36,7 @@ public abstract class AbstractResource<T, IDto extends InputDto, ODto extends Ou
     @GetMapping(produces = { APPLICATION_JSON_VALUE })
     public Response findAll() {
         List<T> allObjects = service.findAll();
-        List<OutputDto> objOutputDtoList = allObjects.stream().map(obj -> mapper.getMapper().entityToOutputDto(obj))
+        List<OutputDto> objOutputDtoList = allObjects.stream().map(obj -> mapper.entityToOutputDto(obj))
                 .collect(Collectors.toList());
         return Response.ok().entity(objOutputDtoList).build();
     }
@@ -56,7 +56,7 @@ public abstract class AbstractResource<T, IDto extends InputDto, ODto extends Ou
     @PostMapping(consumes = { APPLICATION_JSON_VALUE }, produces = { APPLICATION_JSON_VALUE })
     public Response create(@RequestBody IDto iDto) throws Exception {
         try {
-            Object object = service.create(mapper.getMapper().inputDtoToEntity(iDto));
+            Object object = service.create(mapper.inputDtoToEntity(iDto));
             OutputDto outputObject = mapper.entityToOutputDto(object);
             return Response.status(Response.Status.CREATED).entity(outputObject).build();
         } catch(Exception e) {

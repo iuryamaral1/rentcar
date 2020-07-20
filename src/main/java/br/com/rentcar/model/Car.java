@@ -22,27 +22,25 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @NotEmpty
-    @NotNull
+    @NotNull(message = "{br.com.rentcar.Car.year.NotNull}")
     @Column(name = "year", nullable = false)
-    private int year;
+    private Integer year;
 
-    @NotBlank
-    @NotEmpty
-    @Size(min = 7, max = 7)
+    @NotBlank(message = "{br.com.rentcar.Car.licensePlate.NotBlank}")
+    @NotEmpty(message = "{br.com.rentcar.Car.licensePlate.NotEmpty}")
+    @Size(min = 7, max = 7, message = "{br.com.rentcar.Car.licensePlate.Size}")
     @Column(name = "license_plate", length = 7, nullable = false, unique = true)
     private String licensePlate;
 
-    @NotBlank
-    @NotEmpty
-    @Size(max = 30)
+    @NotBlank(message = "{br.com.rentcar.Car.model.NotBlank}")
+    @NotEmpty(message = "{br.com.rentcar.Car.model.NotEmpty}")
+    @Size(max = 30, message = "{br.com.rentcar.Car.model.Size}")
     @Column(name = "model", length = 30, nullable = false)
     private String model;
 
-    @NotBlank
-    @NotEmpty
-    @Size(max = 30)
+    @NotBlank(message = "{br.com.rentcar.Car.color.NotBlank}")
+    @NotEmpty(message = "{br.com.rentcar.Car.color.NotEmpty}")
+    @Size(max = 30, message = "{br.com.rentcar.Car.color.Size}")
     @Column(name = "color", length = 30, nullable = false)
     private String color;
 
@@ -50,18 +48,21 @@ public class Car {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Car(int year, String licensePlate, String model, String color) {
+    public Car() {
+    }
+
+    public Car(Integer year, String licensePlate, String model, String color) {
         this.year = year;
         this.licensePlate = licensePlate;
         this.model = model;
         this.color = color;
     }
 
-    public int getYear() {
+    public Integer getYear() {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(Integer year) {
         this.year = year;
     }
 
@@ -87,5 +88,21 @@ public class Car {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

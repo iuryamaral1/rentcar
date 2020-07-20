@@ -9,10 +9,9 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Mappings;
 import org.mapstruct.NullValuePropertyMappingStrategy;
-import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
-public interface UserMapper extends br.com.rentcar.mappers.Mapper<User, InputUserDto, OutputUserDto, UserMapper> {
+public interface UserMapper extends br.com.rentcar.mappers.Mapper<User, InputUserDto, OutputUserDto> {
 
     @Override
     @Mappings( {
@@ -29,7 +28,9 @@ public interface UserMapper extends br.com.rentcar.mappers.Mapper<User, InputUse
     OutputUserDto entityToOutputDto(User entity);
 
     @Override
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mappings( {
+            @Mapping(target = "id",               source = "inputDto.id"),
             @Mapping(target = "firstName",        source = "inputDto.firstNameUser"),
             @Mapping(target = "lastName",         source = "inputDto.lastNameUser") ,
             @Mapping(target = "email"   ,         source = "inputDto.usermail")     ,
@@ -43,6 +44,7 @@ public interface UserMapper extends br.com.rentcar.mappers.Mapper<User, InputUse
     @Override
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mappings( {
+            @Mapping(target = "id",               source = "dto.id"),
             @Mapping(target = "firstName",        source = "dto.firstNameUser"),
             @Mapping(target = "lastName",         source = "dto.lastNameUser") ,
             @Mapping(target = "email"   ,         source = "dto.usermail")     ,
@@ -52,7 +54,4 @@ public interface UserMapper extends br.com.rentcar.mappers.Mapper<User, InputUse
             @Mapping(target = "phone",            source = "dto.phoneContactUser")
     } )
     void updateEntityFromDto(InputUserDto dto, @MappingTarget User user);
-
-    @Override
-    default Class<UserMapper> getMapperClass() { return UserMapper.class; }
 }

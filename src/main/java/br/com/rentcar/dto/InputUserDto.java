@@ -18,10 +18,11 @@ public class InputUserDto extends InputDto {
 
     public InputUserDto() { }
 
-    public InputUserDto(String firstNameUser, String lastNameUser,
+    public InputUserDto(Long id, String firstNameUser, String lastNameUser,
                         String usermail, Date birthDateUser,
                         String loginUser, String passUser,
                         String phoneContactUser) {
+        this.id = id;
         this.firstNameUser = firstNameUser;
         this.lastNameUser = lastNameUser;
         this.usermail = usermail;
@@ -29,6 +30,14 @@ public class InputUserDto extends InputDto {
         this.loginUser = loginUser;
         this.passUser = passUser;
         this.phoneContactUser = phoneContactUser;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFirstNameUser() {

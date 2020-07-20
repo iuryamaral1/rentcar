@@ -37,7 +37,7 @@ public class GlobalExceptionHandler {
         } else if(cause instanceof org.hibernate.exception.ConstraintViolationException) {
             errorResponse.setErrorMessageList(Collections.singletonList(cause.getLocalizedMessage()));
         } else if (cause instanceof DataIntegrityViolationException || cause instanceof org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException) {
-            errorResponse.setErrorMessageList(Collections.singletonList("Email/login already exists"));
+            errorResponse.setErrorMessageList(Collections.singletonList("Duplicate data"));
         } else {
             errorResponse.setErrorMessageList(Collections.singletonList(ex.getMessage()));
         }
