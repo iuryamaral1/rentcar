@@ -78,4 +78,13 @@ A aplicação foi integrada com a plataforma do Heroku, onde a API está acessí
 #### mvn clean install
 #### mvn spring-boot:run
 
+### Rotas implementadas:
 
+##### /api/users POST, GET, PUT, DELETE
+##### /api/cars  POST, GET, PUT, DELETE
+##### /api/login POST :
+  Exemplo de requisição de login:
+      {
+          "username": "teste",
+          "pwd": "123456"
+      }
