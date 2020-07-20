@@ -54,11 +54,37 @@ API Restful para Sistema de usuários de carros.
 
 ### 11: Sistema deve permitir a atualização dos dados de um carro.
 
-#Solução
+# Solução
+
+## Spring Boot
+
+O Spring Boot possui a maior flexibilidade para o desenvolvimento do projeto devido à sua configuração simples e possuir o servidor embutido na aplicação como solicitado.
 
 ## Mapstruct
 
 O mapstruct foi escolhido como a ferramenta de mapeamento para 
 transformar diferentes modelos de objetos por ter uma implementação rápida e ser bastante aceita no mercado.
 
+## Github Actions
 
+A escolha dessa ferramenta para automatizar processos de software se deve ao fato de ela já estar integrada à plataforma do Github.
+
+## Heroku
+
+A aplicação foi integrada com a plataforma do Heroku, onde a API está acessível por meio do link: https://rentcar-project.herokuapp.com/api.
+
+# Passos para rodar a aplicação
+
+#### mvn clean install
+#### mvn spring-boot:run
+
+### Rotas implementadas:
+
+##### /api/users POST, GET, PUT, DELETE
+##### /api/cars  POST, GET, PUT, DELETE
+##### /api/login POST :
+  Exemplo de requisição de login:
+      {
+          "username": "teste",
+          "pwd": "123456"
+      }
