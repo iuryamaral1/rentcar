@@ -3,6 +3,7 @@ package br.com.rentcar.errors;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -20,9 +21,9 @@ import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
-    public Response handleAllExceptions(Exception ex) {
+    public ResponseEntity<Object> handleAllExceptions(Exception ex) {
         ErrorResponse errorResponse = getErrorResponse(ex);
-        return Response.status(BAD_REQUEST).entity(errorResponse).build();
+        return ResponseEntity.badRequest().body(errorResponse);
     }
 
     private ErrorResponse getErrorResponse(Exception ex) {
