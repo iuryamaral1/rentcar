@@ -53,3 +53,12 @@ API Restful para Sistema de usuários de carros.
 ### 10: Sistema deve permitir remover um carro da listagem de um usuário logado pelo id.
 
 ### 11: Sistema deve permitir a atualização dos dados de um carro.
+
+#Solução
+
+## Mapstruct
+
+O mapstruct foi escolhido como a ferramenta de mapeamento para 
+transformar diferentes modelos de objetos por ter uma implementação rápida e ser bastante aceita no mercado.
+
+
