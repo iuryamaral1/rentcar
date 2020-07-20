@@ -46,10 +46,10 @@ API Restful para Sistema de usuários de carros.
   * Modelo;
   * Cor;
   
-### 07: Sistema deve ser capaz de listar os carros de um usuário.
+### 08: Sistema deve ser capaz de listar os carros de um usuário.
 
-### 08: Sistema deve ser capaz de buscar um carro de um usuário logado pelo id.
+### 09: Sistema deve ser capaz de buscar um carro de um usuário logado pelo id.
 
-### 09: Sistema deve permitir remover um carro da listagem de um usuário logado pelo id.
+### 10: Sistema deve permitir remover um carro da listagem de um usuário logado pelo id.
 
-### 10: Sistema deve permitir a atualização de 
+### 11: Sistema deve permitir a atualização dos dados de um carro.
